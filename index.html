@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image enhancer tool. Enhance your photos with brightness, contrast, saturation adjustments and more. No installation required.">
+    <meta name="keywords" content="image enhancer, photo editor, image processing, photo enhancement, online photo editor">
+    <title>PixelPerfect Pro | Free Online Image Enhancement Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4ade80;
+            --warning: #facc15;
+            --danger: #f87171;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+            color: var(--accent);
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .ad-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem auto;
+            text-align: center;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+        
+        .ad-label {
+            background: var(--gray);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ad-placeholder {
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(45deg, #e0e0e0, #f0f0f0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .ad-placeholder i {
+            font-size: 1.5rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .editor-container {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .editor-header {
+            padding: 1.25rem;
+            background: var(--light);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .editor-header h2 {
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+        
+        .editor-body {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .editor-body {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .image-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .image-preview {
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            background: #fafafa;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+        }
+        
+        .upload-prompt {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+        
+        .upload-prompt i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .control-group {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+        }
+        
+        .control-group h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-item {
+            margin-bottom: 1rem;
+        }
+        
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            border-radius: 10px;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        .value-display {
+            width: 50px;
+            text-align: center;
+            background: #f0f0f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 1px solid #ddd;
+            flex: 1;
+        }
+        
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+        
+        .btn-download {
+            background: var(--success);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-download:hover {
+            background: #22c55e;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .info-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .info-card li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .info-card i {
+            color: var(--primary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .instructions {
+            margin-top: 2rem;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .step-content p {
+            color: var(--gray);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            margin-top: 1rem;
+        }
+        
+        .upload-btn:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-magic"></i>
+            <h1>PixelPerfect Pro</h1>
+        </div>
+        <p class="tagline">Enhance your images with professional-quality adjustments in seconds. No installation required!</p>
+    </header>
+    
+    <div class="container">
+        <div class="ad-container">
+            <div>
+                <span class="ad-label">ADVERTISEMENT</span>
+                <div class="ad-placeholder">
+                    <i class="fas fa-ad"></i>
+                    <div>Google AdSense Ad Unit</div>
+                    <small>Ad Unit ID: ADSENSE_HEADER_AD</small>
+                </div>
+                <!-- Google AdSense Code Here -->
+                <!-- 
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-9092827303772517/7161641817"
+                     crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-app-pub-9092827303772517/7161641817"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                -->
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="editor-container">
+                <div class="editor-header">
+                    <h2><i class="fas fa-sliders-h"></i> Image Enhancement Controls</h2>
+                    <div>
+                        <input type="file" id="fileInput" class="file-input" accept="image/*">
+                        <label for="fileInput" class="upload-btn">
+                            <i class="fas fa-upload"></i> Upload Image
+                        </label>
+                    </div>
+                </div>
+                <div class="editor-body">
+                    <div class="image-section">
+                        <h3>Original Image</h3>
+                        <div class="image-preview" id="originalPreview">
+                            <div class="upload-prompt">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Upload an image to get started</p>
+                                <p class="small">Supports JPG, PNG, WebP formats</p>
+                            </div>
+                            <img id="originalImage" alt="Original Image">
+                        </div>
+                        
+                        <h3>Enhanced Image</h3>
+                        <div class="image-preview" id="enhancedPreview">
+                            <div class="upload-prompt">
+                                <i class="fas fa-wand-magic-sparkles"></i>
+                                <p>Your enhanced image will appear here</p>
+                            </div>
+                            <canvas id="enhancedCanvas"></canvas>
+                            <img id="enhancedImage" alt="Enhanced Image">
+                        </div>
+                    </div>
+                    
+                    <div class="controls-section">
+                        <div class="control-group">
+                            <h3><i class="fas fa-sun"></i> Basic Adjustments</h3>
+                            
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Brightness</span>
+                                    <span id="brightnessValue">100%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="200" value="100" class="slider" id="brightnessSlider">
+                                </div>
+                            </div>
+                            
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Contrast</span>
+                                    <span id="contrastValue">100%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="200" value="100" class="slider" id="contrastSlider">
+                                </div>
+                            </div>
+                            
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Saturation</span>
+                                    <span id="saturationValue">100%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="200" value="100" class="slider" id="saturationSlider">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <h3><i class="fas fa-cog"></i> Advanced Effects</h3>
+                            
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Sharpness</span>
+                                    <span id="sharpnessValue">0</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="100" value="0" class="slider" id="sharpnessSlider">
+                                </div>
+                            </div>
+                            
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Vignette</span>
+                                    <span id="vignetteValue">0%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="100" value="0" class="slider" id="vignetteSlider">
+                                </div>
+                            </div>
+                            
+                            <div class="control-item">
+                                <div class="control-label">
+                                    <span>Temperature</span>
+                                    <span id="temperatureValue">0</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="-100" max="100" value="0" class="slider" id="temperatureSlider">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" id="resetBtn">
+                                <i class="fas fa-undo"></i> Reset All
+                            </button>
+                            <button class="btn btn-download" id="downloadBtn">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> About This Tool</h3>
+                    <p>PixelPerfect Pro is a free online image enhancement tool that helps you improve your photos instantly. Adjust brightness, contrast, saturation and more in real-time.</p>
+                    
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> No installation required</li>
+                        <li><i class="fas fa-check-circle"></i> All processing happens in your browser</li>
+                        <li><i class="fas fa-check-circle"></i> No image uploads to server - your photos stay private</li>
+                        <li><i class="fas fa-check-circle"></i> Completely free to use</li>
+                    </ul>
+                </div>
+                
+                <div class="ad-container">
+                    <div>
+                        <span class="ad-label">ADVERTISEMENT</span>
+                        <div class="ad-placeholder">
+                            <i class="fas fa-ad"></i>
+                            <div>Google AdSense Ad Unit</div>
+                            <small>Ad Unit ID: ADSENSE_SIDEBAR_AD</small>
+                        </div>
+                        <!-- Google AdSense Code Here -->
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-lightbulb"></i> Pro Tips</h3>
+                    <ul>
+                        <li><i class="fas fa-bolt"></i> Adjust brightness to fix underexposed photos</li>
+                        <li><i class="fas fa-moon"></i> Increase contrast to make details pop</li>
+                        <li><i class="fas fa-tint"></i> Boost saturation for more vibrant colors</li>
+                        <li><i class="fas fa-star"></i> Use sharpness to enhance details</li>
+                        <li><i class="fas fa-crop-alt"></i> Add vignette for a professional look</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2><i class="fas fa-graduation-cap"></i> How to Enhance Your Images</h2>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Upload Your Image</h4>
+                    <p>Click the "Upload Image" button and select an image from your device. We support JPG, PNG, and WebP formats.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Adjust Enhancement Settings</h4>
+                    <p>Use the sliders to adjust brightness, contrast, saturation and other parameters. See changes in real-time.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Download Your Enhanced Image</h4>
+                    <p>When you're satisfied with the result, click the "Download" button to save your enhanced image.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-rocket"></i>
+                <h3>Fast Processing</h3>
+                <p>Real-time enhancements powered by modern web technologies</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-lock"></i>
+                <h3>Privacy Focused</h3>
+                <p>Your images never leave your browser - no server uploads</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Fully Responsive</h3>
+                <p>Works perfectly on desktop, tablet, and mobile devices</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-sync-alt"></i>
+                <h3>Unlimited Adjustments</h3>
+                <p>Experiment freely with no restrictions</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 PixelPerfect Pro | Free Online Image Enhancement Tool</p>
+        <p>This tool uses client-side processing only. No images are uploaded to any server.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const fileInput = document.getElementById('fileInput');
+            const originalPreview = document.getElementById('originalPreview');
+            const enhancedPreview = document.getElementById('enhancedPreview');
+            const originalImage = document.getElementById('originalImage');
+            const enhancedCanvas = document.getElementById('enhancedCanvas');
+            const enhancedImage = document.getElementById('enhancedImage');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            // Slider Elements
+            const brightnessSlider = document.getElementById('brightnessSlider');
+            const contrastSlider = document.getElementById('contrastSlider');
+            const saturationSlider = document.getElementById('saturationSlider');
+            const sharpnessSlider = document.getElementById('sharpnessSlider');
+            const vignetteSlider = document.getElementById('vignetteSlider');
+            const temperatureSlider = document.getElementById('temperatureSlider');
+            
+            // Value Display Elements
+            const brightnessValue = document.getElementById('brightnessValue');
+            const contrastValue = document.getElementById('contrastValue');
+            const saturationValue = document.getElementById('saturationValue');
+            const sharpnessValue = document.getElementById('sharpnessValue');
+            const vignetteValue = document.getElementById('vignetteValue');
+            const temperatureValue = document.getElementById('temperatureValue');
+            
+            // Canvas Context
+            const ctx = enhancedCanvas.getContext('2d');
+            
+            // Current Image
+            let currentImage = null;
+            
+            // Event Listeners
+            fileInput.addEventListener('change', handleImageUpload);
+            brightnessSlider.addEventListener('input', updateImage);
+            contrastSlider.addEventListener('input', updateImage);
+            saturationSlider.addEventListener('input', updateImage);
+            sharpnessSlider.addEventListener('input', updateImage);
+            vignetteSlider.addEventListener('input', updateImage);
+            temperatureSlider.addEventListener('input', updateImage);
+            downloadBtn.addEventListener('click', downloadImage);
+            resetBtn.addEventListener('click', resetSliders);
+            
+            // Initialize value displays
+            updateValueDisplays();
+            
+            function handleImageUpload(e) {
+                const file = e.target.files[0];
+                if (!file || !file.type.match('image.*')) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    originalImage.src = event.target.result;
+                    originalImage.onload = function() {
+                        currentImage = new Image();
+                        currentImage.src = event.target.result;
+                        currentImage.onload = function() {
+                            // Hide upload prompts
+                            originalPreview.querySelector('.upload-prompt').style.display = 'none';
+                            enhancedPreview.querySelector('.upload-prompt').style.display = 'none';
+                            
+                            // Show images
+                            originalImage.style.display = 'block';
+                            
+                            // Set canvas dimensions
+                            enhancedCanvas.width = currentImage.width;
+                            enhancedCanvas.height = currentImage.height;
+                            
+                            // Apply initial processing
+                            updateImage();
+                        };
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            function updateImage() {
+                if (!currentImage) return;
+                
+                // Draw original image on canvas
+                ctx.clearRect(0, 0, enhancedCanvas.width, enhancedCanvas.height);
+                ctx.drawImage(currentImage, 0, 0, enhancedCanvas.width, enhancedCanvas.height);
+                
+                // Get image data
+                const imageData = ctx.getImageData(0, 0, enhancedCanvas.width, enhancedCanvas.height);
+                const data = imageData.data;
+                
+                // Get current values
+                const brightness = parseInt(brightnessSlider.value) / 100;
+                const contrast = parseInt(contrastSlider.value) / 100;
+                const saturation = parseInt(saturationSlider.value) / 100;
+                const temperature = parseInt(temperatureSlider.value);
+                
+                // Apply adjustments
+                for (let i = 0; i < data.length; i += 4) {
+                    // Get RGB values
+                    let r = data[i];
+                    let g = data[i + 1];
+                    let b = data[i + 2];
+                    
+                    // Apply brightness
+                    r = r * brightness;
+                    g = g * brightness;
+                    b = b * brightness;
+                    
+                    // Apply contrast
+                    const contrastFactor = (259 * (contrast * 255 + 255)) / (255 * (259 - contrast * 255));
+                    r = contrastFactor * (r - 128) + 128;
+                    g = contrastFactor * (g - 128) + 128;
+                    b = contrastFactor * (b - 128) + 128;
+                    
+                    // Apply saturation
+                    const gray = 0.2989 * r + 0.5870 * g + 0.1140 * b;
+                    r = gray + saturation * (r - gray);
+                    g = gray + saturation * (g - gray);
+                    b = gray + saturation * (b - gray);
+                    
+                    // Apply temperature (warm/cool)
+                    if (temperature > 0) {
+                        // Warm (increase red, decrease blue)
+                        r += temperature * 1.2;
+                        b -= temperature * 0.6;
+                    } else if (temperature < 0) {
+                        // Cool (decrease red, increase blue)
+                        r += temperature * 1.2;
+                        b -= temperature * 0.6;
+                    }
+                    
+                    // Clamp values to 0-255
+                    r = Math.max(0, Math.min(255, r));
+                    g = Math.max(0, Math.min(255, g));
+                    b = Math.max(0, Math.min(255, b));
+                    
+                    // Update pixel data
+                    data[i] = r;
+                    data[i + 1] = g;
+                    data[i + 2] = b;
+                }
+                
+                // Put the modified image data back on the canvas
+                ctx.putImageData(imageData, 0, 0);
+                
+                // Apply vignette
+                applyVignette();
+                
+                // Update value displays
+                updateValueDisplays();
+            }
+            
+            function applyVignette() {
+                const vignette = parseInt(vignetteSlider.value) / 100;
+                if (vignette <= 0) return;
+                
+                const width = enhancedCanvas.width;
+                const height = enhancedCanvas.height;
+                const centerX = width / 2;
+                const centerY = height / 2;
+                const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY);
+                
+                const vignetteData = ctx.getImageData(0, 0, width, height);
+                const data = vignetteData.data;
+                
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const index = (y * width + x) * 4;
+                        const distance = Math.sqrt(
+                            Math.pow(x - centerX, 2) + 
+                            Math.pow(y - centerY, 2)
+                        );
+                        const factor = 1 - (distance / maxDistance) * vignette;
+                        
+                        data[index] *= factor;
+                        data[index + 1] *= factor;
+                        data[index + 2] *= factor;
+                    }
+                }
+                
+                ctx.putImageData(vignetteData, 0, 0);
+            }
+            
+            function updateValueDisplays() {
+                brightnessValue.textContent = `${brightnessSlider.value}%`;
+                contrastValue.textContent = `${contrastSlider.value}%`;
+                saturationValue.textContent = `${saturationSlider.value}%`;
+                sharpnessValue.textContent = sharpnessSlider.value;
+                vignetteValue.textContent = `${vignetteSlider.value}%`;
+                temperatureValue.textContent = temperatureSlider.value;
+            }
+            
+            function downloadImage() {
+                if (!currentImage) {
+                    alert('Please upload an image first');
+                    return;
+                }
+                
+                const link = document.createElement('a');
+                link.download = `enhanced-${Date.now()}.png`;
+                link.href = enhancedCanvas.toDataURL('image/png');
+                link.click();
+            }
+            
+            function resetSliders() {
+                brightnessSlider.value = 100;
+                contrastSlider.value = 100;
+                saturationSlider.value = 100;
+                sharpnessSlider.value = 0;
+                vignetteSlider.value = 0;
+                temperatureSlider.value = 0;
+                updateImage();
+            }
+            
+            // Initialize with a sample image for demo purposes
+            setTimeout(() => {
+                originalImage.src = 'https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80';
+                originalImage.onload = function() {
+                    currentImage = new Image();
+                    currentImage.src = originalImage.src;
+                    currentImage.onload = function() {
+                        originalPreview.querySelector('.upload-prompt').style.display = 'none';
+                        enhancedPreview.querySelector('.upload-prompt').style.display = 'none';
+                        originalImage.style.display = 'block';
+                        enhancedCanvas.width = currentImage.width;
+                        enhancedCanvas.height = currentImage.height;
+                        updateImage();
+                    };
+                };
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
